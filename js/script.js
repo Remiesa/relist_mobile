@@ -1,19 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
         const savedNotes = JSON.parse(localStorage.getItem('notes')) || [];
-        savedNotes.forEach(note => addNoteToDOM(note.text, note.checked, note.date));
+        savedNotes.forEach(note => addNoteToDOM(note.text, note.checked));
 
         document.getElementById('addButton').addEventListener('click', () => {
             const newNoteText = document.getElementById('newNote').value;
             if (newNoteText.trim() !== '') {
-                const formattedDate = formatDate(new Date());
-                addNoteToDOM(newNoteText, false, formattedDate);
+                addNoteToDOM(newNoteText, false);
                 saveNotes();
                 document.getElementById('newNote').value = '';
             }
         });
     });
 
-    function addNoteToDOM(text, checked, date) {
+    function addNoteToDOM(text, checked) {
         const notesDiv = document.getElementById('notes');
         const noteDiv = document.createElement('div');
         noteDiv.className = 'note';
@@ -26,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="edit-button" style="background: transparent; color: white; border: none; ${checked ? 'display: none;' : ''}"><i class="fa fa-pencil"></i></button>
                 <button class="delete-button" style="background: transparent; color: white; border: none;"><i class="fa fa-trash"></i></button>
             </div>
-            <div class="note-date text-center">${date}</div>
         `;
 
         const checkbox = noteDiv.querySelector('input[type="checkbox"]');
@@ -56,14 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveNotes() {
         const notes = Array.from(document.querySelectorAll('.note')).map(noteDiv => ({
             text: noteDiv.querySelector('input[type="text"]').value,
-            checked: noteDiv.querySelector('input[type="checkbox"]').checked,
-            date: noteDiv.querySelector('.note-date').innerText
+            checked: noteDiv.querySelector('input[type="checkbox"]').checked
         }));
         localStorage.setItem('notes', JSON.stringify(notes));
-    }
-
-    function formatDate(date) {
-        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-        return `${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()} - ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} WIB`;
     }
