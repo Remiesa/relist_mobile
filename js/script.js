@@ -18,8 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const noteDiv = document.createElement('div');
         noteDiv.className = 'note';
 
+        
         noteDiv.innerHTML = `
-            <div class="note-header">
+        <div class="note-header">
                 <input type="checkbox" ${checked ? 'checked' : ''}>
                 <input type="text" value="${text}" disabled ${checked ? 'class="checked"' : ''}>
                 <button class="edit-button" style="background: transparent; color: white; border: none; ${checked ? 'display: none;' : ''}"><i class="fa fa-pencil"></i></button>
